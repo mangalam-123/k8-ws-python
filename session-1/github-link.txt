@@ -1,0 +1,2 @@
+inventory_service: https://hub.docker.com/repository/docker/mishr3k/inventory_image/general
+order_service: https://hub.docker.com/repository/docker/mishr3k/order_image/general
