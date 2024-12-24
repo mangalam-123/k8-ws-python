@@ -1,0 +1,12 @@
+
+#List the networks
+docker network ls
+
+#Create a custom network
+docker network create custom_network
+
+# Run a container with custom docker mishr3k/inventory_image from docker hub inside the custom network custom_network along with port mapping
+docker run -dit --name inventory_service --network custom_network -p 8082:8082 mishr3k/inventory_image
+
+# Run a container with custom docker image mishr3k/order_image from docker hub inside the custom network custom_network  along with port mapping and environmental variable
+docker run -dit --name order_service --network custom_network -p 8083:8083 -e INVENTORY_SERVICE_URL=http://inventory_service:8082 mishr3k/order_image
