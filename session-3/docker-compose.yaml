@@ -1,0 +1,28 @@
+name: coffee-shop
+
+services:
+    inventory_service:
+        image: mishr3k/inventory_image
+        container_name: inventory_service
+        networks:
+            - custom_network
+        ports:
+            - "8082:8082"
+    
+    order_service:
+        image: mishr3k/order_image
+        container_name: order_service
+        depends_on:
+            - inventory_service
+        networks:
+            - custom_network
+        environment:
+            - INVENTORY_SERVICE_URL=http://inventory_service:8082
+        ports:
+            - "8083:8083"
+
+networks:
+    custom_network:
+        driver: bridge
+
+        
