@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-pod-deployment
+  namespace: prod
+  labels:
+    app: order-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-pod
+  template:
+    metadata:
+      labels:
+        app: order-pod
+    spec:
+      containers:
+        - name: order-pod
+          image: mishr3k/order_image
+          ports:
+            - containerPort: 8083
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: INVENTORY_SERVICE_URL
+              value: "http://inventory-service:8082"
+            - name: ESPRESSO_SHOT_QUANTITY
+              valueFrom:
+                configMapKeyRef:
+                  name: order-config
+                  key: ESPRESSO_SHOT_QUANTITY
+            - name: MILK_FOAM_QUANTITY
+              valueFrom:
+                configMapKeyRef:
+                  name: order-config
+                  key: MILK_FOAM_QUANTITY
