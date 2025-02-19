@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-pod-deployment
+  namespace: dev
+  labels:
+    app: inventory-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-pod
+  template:
+    metadata:
+      labels:
+        app: inventory-pod
+    spec:
+      containers:
+        - name: inventory-pod
+          image: mishr3k/inventory_image
+          ports:
+            - containerPort: 8082
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: ESPRESSO_SHOT_QUANTITY
+              valueFrom:
+                configMapKeyRef:
+                  name: inventory-config
+                  key: ESPRESSO_SHOT_QUANTITY
+            - name: MILK_FOAM_QUANTITY
+              valueFrom:
+                configMapKeyRef:
+                  name: inventory-config
+                  key: MILK_FOAM_QUANTITY
+
+
