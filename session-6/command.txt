@@ -1,0 +1,16 @@
+# Enable ingress addon in minikube
+minikube addons enable ingress
+
+
+#Apply all the manifest files using 
+kubectl apply -f manifest_file.yml
+
+#Enable the minikube tunnel for mapping to ingress
+minikube tunnel
+
+#Get metric server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+# For load generator testing HPA
+kubectl run load-generator -n coffee-shop--image busybox -- /bin/sh -c "while true; do wget -q -O- http://192.168.49.2/inventory/stock ; done"
+kubectl run load-generator -n coffee-shop --image busybox -- /bin/sh -c "while true; do wget -q -O- http://192.168.49.2/order/place?quantity=1 ; done"

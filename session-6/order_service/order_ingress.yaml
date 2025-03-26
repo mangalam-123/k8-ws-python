@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: order-ingress
+  namespace: coffee-shop
+spec:
+  ingressClassName: nginx  # Ensure your cluster is using the NGINX ingress controller
+  rules:
+    - host: localhost  # This allows access via http://localhost/order
+      http:
+        paths:
+          - path: /order
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8083
+
+
